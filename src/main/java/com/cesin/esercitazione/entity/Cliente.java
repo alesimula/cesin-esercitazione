@@ -7,10 +7,13 @@ import javax.persistence.*;
 @Entity
 @Table
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Cliente {
     @Id
+    @Setter(AccessLevel.PROTECTED)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private final long id;
+    private long id;
 
     @Column(nullable = false, unique = true)
     private String name;

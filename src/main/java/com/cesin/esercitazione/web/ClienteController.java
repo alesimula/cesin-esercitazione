@@ -8,16 +8,29 @@ import org.springframework.web.bind.annotation.*;
 import lombok.val;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("cliente")
 public class ClienteController {
     @Autowired
     private ClienteRepository repository;
 
+    @GetMapping("addtest")
+    void addTest() {
+        repository.saveAll(List.of(
+                new Cliente(1, "AlphaTauri2", "PP, 1 Faenza", true),
+                new Cliente(2, "TBD", "Via Brescia, 1", true),
+                new Cliente(3, "Alpine", "FR, 1 Gentt", true),
+                new Cliente(4, "Test", "Via Boh 404", true)
+        ));
+    }
+
 
     @PostMapping("add")
     void add(@RequestBody Cliente cliente) {
-        repository.save(cliente);
+        if (repository.getById(cliente.getId()) == null) repository.save(cliente);
+        else throw new ResponseStatusException(HttpStatus.CONFLICT);
     }
 
     @PostMapping("edit")
@@ -39,8 +52,10 @@ public class ClienteController {
         return repository.findAll();
     }
 
-    @GetMapping("{id}")
+    @GetMapping("id/{id}")
     Cliente get(@PathVariable long id) {
-        return repository.getById(id);
+        val cliente = repository.getById(id);
+        if (cliente != null) return  cliente;
+        else throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
 }
