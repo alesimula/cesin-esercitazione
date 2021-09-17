@@ -1,5 +1,6 @@
 package com.cesin.esercitazione;
 
+import com.cesin.esercitazione.entity.Cliente;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
